@@ -1,9 +1,6 @@
-import unittest
+import pytest
 
-class Check(unittest.TestCase):
-    def test_math(self):
-        self.assertEqual(1 + 1, 2)
-        self.assertEqual(1, 1)
-
-if __name__ == "__main__":
-    unittest.main()
+def test_basic_math():
+    """Test simple assertions."""
+    assert 1 + 1 == 2
+    assert 1 == 1
