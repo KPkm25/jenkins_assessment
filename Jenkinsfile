@@ -33,7 +33,7 @@ pipeline {
 		script {
     			sh '''
         		source venv/bin/activate
-        		export PYTHONPATH=$(pwd):$(pwd)/pytest 
+        		export PYTHONPATH=$(pwd)
         		venv/bin/pytest pytest/
     			'''
 }
