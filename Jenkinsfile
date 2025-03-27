@@ -8,22 +8,47 @@ pipeline {
             }
         }
         
+        stage('Set up Virtual Environment') {
+            steps {
+                script {
+                    sh 'python3 -m venv venv'
+                }
+            }
+        }
+        
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                script {
+                    sh '''
+                        bash -c "source venv/bin/activate"
+                        venv/bin/pip install -r requirements.txt
+                        venv/bin/pip install setuptools
+                    '''
+                }
             }
         }
         
         stage('Run Tests') {
             steps {
-			sh 'pytest pytest/test.py'        
-    }
+                script {
+                    sh '''
+                        bash -c "source venv/bin/activate"
+                        export PYTHONPATH=$(pwd)
+                        venv/bin/pytest pytest/test.py
+                    '''
+                }
+            }
         }
         
         stage('Build and Archive') {
             steps {
-                sh 'mkdir -p build'
-                sh 'cp -r * build/'
+                script {
+                    sh '''
+                        bash -c "source venv/bin/activate"
+                        mkdir -p build
+                        cp -r * build/
+                    '''
+                }
                 archiveArtifacts artifacts: 'build/**', fingerprint: true
             }
         }
