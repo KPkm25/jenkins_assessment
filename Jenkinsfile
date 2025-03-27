@@ -43,11 +43,11 @@ pipeline {
         stage('Build and Archive') {
             steps {
                 script {
-                    sh '''
-                        bash -c "source venv/bin/activate"
-                        mkdir -p build
-                        cp -r * build/
-                    '''
+			sh """
+    			mkdir -p build
+    			cp -r Jenkinsfile app.py pytest requirements.txt venv build/
+			"""
+
                 }
                 archiveArtifacts artifacts: 'build/**', fingerprint: true
             }
