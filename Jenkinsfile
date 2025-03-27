@@ -30,13 +30,13 @@ pipeline {
         
         stage('Run Tests') {
             steps {
-                script {
-                    sh '''
-                        bash -c "source venv/bin/activate"
-                        export PYTHONPATH=$(pwd)
-                        venv/bin/pytest pytest/test.py
-                    '''
-                }
+		script {
+    			sh '''
+        		source venv/bin/activate
+        		export PYTHONPATH=$(pwd):$(pwd)/pytest 
+        		venv/bin/pytest pytest/
+    			'''
+}
             }
         }
         
